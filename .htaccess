@@ -8,13 +8,5 @@ RewriteRule ^wp-login\.php$ %{REQUEST_URI}?%1%3 [NE,R=301,QSD,L]
 RewriteCond %{REQUEST_URI} !a-wp-trac-42670/wordpress/ [NC]
 RewriteRule (.*) wordpress/$1 [L]
 
-# Trick WordPress into thinking we're serving REST API over HTTPS.
-SetEnvIf Request_URI api HTTPS=on
-SetEnvIfExpr "%{QUERY_STRING} =~ /api/" HTTPS=on
-
-# Enable WP_DEBUG.
-php_flag log_errors On
-php_value error_log "wp-content/php_errors.log"
-
 # Set return type for wp_get_environment_type()
 SetEnv WP_ENVIRONMENT_TYPE local
