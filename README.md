@@ -26,7 +26,6 @@ mysql -e "CREATE DATABASE IF NOT EXISTS $TEST_SITE_DB_NAME; USE $TEST_SITE_DB_NA
 # Create wp-config.php and install WordPress.
 wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root --config-file=./wp-config.php;
 wp core install --url=\"$TEST_SITE_WP_URL\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org;
-wp config set WP_DEBUG true --raw; wp config set WP_DEBUG_LOG true --raw; wp config set WP_DEBUG_DISPLAY false --raw; wp config set SCRIPT_DEBUG true --raw;
 
 wp plugin activate --all
 
