@@ -43,7 +43,6 @@ Observe: when plugin `a-wp-trac-42670` is active, the "settings" links for the o
 # Apply the patch
 wget https://github.com/WordPress/wordpress-develop/pull/3412.patch
 cd wordpress; patch -i ../3412.patch -p 2 -s -N -f --no-backup-if-mismatch --reject-file=; cd ..
-patch wordpress -i ./3412.patch -p 2 -s -N -f --no-backup-if-mismatch --reject-file=
 ```
 
 Observe: the "settings" links for the other plugins are visible regardless of the status of `a-wp-trac-42670`.
