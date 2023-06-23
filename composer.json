@@ -1,0 +1,64 @@
+{
+  "name": "brianhenryie/a-wp-trac-42670",
+  "description": "Symlinked plugin makes plugin_basename function return wrong basename.",
+  "license": "GPL-2.0+-or-later",
+  "authors": [
+    {
+      "name": "BrianHenryIE",
+      "email": "BrianHenryIE@gmail.com"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "johnpbloch/wordpress-core-installer": true,
+      "composer/installers": true
+    }
+  },
+  "repositories": {
+    "composer/composer": {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  },
+  "require-dev": {
+    "johnpbloch/wordpress": "6.2.2",
+    "kporras07/composer-symlinks": "dev-master",
+    "wp-cli/wp-cli-bundle": "2.8.1",
+    "wpackagist-theme/twentytwenty": "2.2",
+    "wpackagist-plugin/wp-change-default-from-email": "1.1.5",
+    "wpackagist-plugin/rss-with-images": "1.4",
+    "wpackagist-plugin/wpfrom-email": "1.9",
+    "wpackagist-plugin/display-html-sitemap": "1.0.5",
+    "wpackagist-plugin/logout-redirect": "1.0.2"
+  },
+  "extra": {
+    "symlinks": {
+      "wp-content": "wordpress/wp-content",
+      ".": "wp-content/plugins/a-wp-trac-42670"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "Kporras07\\ComposerSymlinks\\ScriptHandler::createSymlinks"
+    ],
+    "create-database": [
+      "export $(grep -v '^#' .env.testing | xargs); [[ $(mysqld --version) =~ .*MariaDB.* ]] && mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_SITE_DB_USER\"'@'%' IDENTIFIED BY '\"$TEST_SITE_DB_PASSWORD\"';\" || mysql -e \"CREATE USER IF NOT EXISTS '\"$TEST_SITE_DB_USER\"'@'%' IDENTIFIED WITH mysql_native_password BY '\"$TEST_SITE_DB_PASSWORD\"';\";",
+      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"CREATE DATABASE IF NOT EXISTS \"$TEST_SITE_DB_NAME\"; USE \"$TEST_SITE_DB_NAME\"; GRANT ALL PRIVILEGES ON \"$TEST_SITE_DB_NAME\".* TO '\"$TEST_SITE_DB_USER\"'@'%';\";"
+    ],
+    "setup-wordpress": [
+      "export $(grep -v '^#' .env.testing | xargs); wp config create --dbname=$TEST_SITE_DB_NAME --dbuser=$TEST_SITE_DB_USER --dbpass=$TEST_SITE_DB_PASSWORD --allow-root --config-file=./wp-config.php || true",
+      "export $(grep -v '^#' .env.testing | xargs); wp core install --url=\"$TEST_SITE_WP_URL\" --title=\"$PLUGIN_NAME\" --admin_user=admin --admin_password=password --admin_email=admin@example.org || true; wp plugin activate a-wp-trac-42670 || true;",
+      "wp config set WP_DEBUG true --raw; wp config set WP_DEBUG_LOG true --raw; wp config set WP_DEBUG_DISPLAY false --raw; wp config set SCRIPT_DEBUG true --raw",
+      "mkdir -p wordpress/wp-content/uploads"
+    ],
+    "apply-patch": [
+      "wget https://github.com/WordPress/wordpress-develop/pull/3412.patch",
+      "cd wordpress; patch -i ../3412.patch -p 2 -s -N -f --no-backup-if-mismatch --reject-file= || true;"
+    ],
+    "delete-database": [
+      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"DROP DATABASE IF EXISTS \"$TEST_SITE_DB_NAME\";\"",
+      "export $(grep -v '^#' .env.testing | xargs); mysql -e \"DROP USER IF EXISTS \"$TEST_SITE_DB_USER\";\"",
+      "export $(grep -v '^#' .env.testing | xargs); DB_DIR=$(mysql -e \"select @@datadir\" -N -B); rm -rf $DB_DIR$TEST_SITE_DB_NAME;"
+    ]
+  }
+}
