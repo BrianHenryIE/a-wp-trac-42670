@@ -5,7 +5,7 @@
 These test steps require Composer, NPM and Docker.
 
 * Ticket: [core.trac.wordpress.org/ticket/42670](https://core.trac.wordpress.org/ticket/42670)
-* Patch: [github.com/WordPress/wordpress-develop/pull/3412](https://github.com/WordPress/wordpress-develop/pull/3412)
+* Patch PR: [github.com/WordPress/wordpress-develop/pull/5336](https://github.com/WordPress/wordpress-develop/pull/5336)
 * Plugins affected: [wpdirectory.net/search](https://wpdirectory.net/search/01H3G0X3ZPYCJHNGRKBTBNDMTY) (10655+)
 
 ```bash
