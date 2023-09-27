@@ -3,3 +3,5 @@
 /wp-content
 wp-config.php
 *.patch
+.DS_Store
+/node_modules

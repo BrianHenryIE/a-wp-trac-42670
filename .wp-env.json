@@ -1,0 +1,24 @@
+{
+  "phpVersion": "7.4",
+  "env": {
+    "development": {
+      "mappings": {
+        "./wp-content/plugins": "./wp-content/plugins",
+        "../a-wp-trac-42670.php": "./a-wp-trac-42670.php",
+        "./single-symlink.sh": "./single-symlink.sh",
+        "./3412.patch": "./3412.patch"
+      }
+    },
+    "tests": {
+      "mappings": {
+        "../wp-content": "./wp-content",
+        "../a-wp-trac-42670.php": "./a-wp-trac-42670.php",
+        "./double-symlink.sh": "./double-symlink.sh",
+        "./3412.patch": "./3412.patch"
+      }
+    }
+  },
+  "lifecycleScripts": {
+    "afterStart": "./afterStart.sh"
+  }
+}
