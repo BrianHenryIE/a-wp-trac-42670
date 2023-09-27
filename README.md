@@ -8,6 +8,27 @@ These test steps require Composer, NPM and Docker.
 * Patch PR: [github.com/WordPress/wordpress-develop/pull/5336](https://github.com/WordPress/wordpress-develop/pull/5336) ([previous 3412](https://github.com/WordPress/wordpress-develop/pull/3412))
 * Plugins affected: [wpdirectory.net/search](https://wpdirectory.net/search/01H3G0X3ZPYCJHNGRKBTBNDMTY) (10655+)
 
+There are two related scenarios being tested.
+
+With http://localhost:8888
+
+```
+# /var/www/a-wp-trac-42670.php                          # The test plugin
+# /var/www/html/                                        # WordPress
+# /var/www/html/wp-content/plugins                      # The plugins directory
+# /var/www/html/wp-content/plugins/a-wp-trac-42670/     # Symlink to `/var/www/` (the test plugin)
+```
+
+With http://localhost:8889
+
+```
+# /var/www/a-wp-trac-42670.php                          # The test plugin
+# /var/www/html/                                        # WordPress
+# /var/www/html/wp-content/plugins                      # Symlink to `/var/www/wp-content/plugins/`
+# /var/www/wp-content/plugins                           # The plugins dir
+# /var/www/wp-content/plugins/a-wp-trac-42670/          # The symlink to `/var/www/` (the test plugin)
+```
+
 ```bash
 git clone https://github.com/BrianHenryIE/a-wp-trac-42670.git;
 cd a-wp-trac-42670;
@@ -27,7 +48,7 @@ npx wp-env start
 
 It completes with `Command failed` but everything seems to be in order.
 
-Observe: when plugin `a-wp-trac-42670` is active, the "settings" links for the other plugins are missing.
+Observe: when plugin `a-wp-trac-42670` is active, the "Settings" links for the other plugins are missing.
 
 ```bash
 open http://localhost:8888/wp-admin/plugins.php
@@ -50,7 +71,7 @@ npx wp-env run tests-cli patch -i 5336.patch -p 2 -s -N -f --no-backup-if-mismat
 # It will "fail" but that is the `/tests/phpunit/tests/...` part not applying.
 ```
 
-Observe: the "settings" links for the other plugins are visible regardless of the status of `a-wp-trac-42670`.
+Observe: the "Settings" links for the other plugins are visible regardless of the status of `a-wp-trac-42670`.
 
 ![42670-problem-fixed.png](42670-problem-fixed.png)
 
