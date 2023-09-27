@@ -23,8 +23,12 @@ composer install;
 npm install
 
 npx wp-env start
+```
 
-# It does complete with `Command failed` but everything seems to be in order:
+It completes with `Command failed` but everything seems to be in order.
+
+```bash
+# This section can be skipped. It runs `ls` to verify the symlinks.
 
 npx wp-env run cli ls -l /var/www/
 # Note the mapped plugin file in the parent directory of the WordPress install:
@@ -45,10 +49,6 @@ npx wp-env run tests-cli ls -l /var/www/wp-content/plugins
 
 npx wp-env run tests-cli ls -l /var/www/html/wp-content/
 # Note the symlink `plugins -> /var/www/wp-content/plugins/`
-
-npx wp-env run cli wp plugin activate --all
-
-npx wp-env run tests-cli wp plugin activate --all
 ```
 
 Observe: when plugin `a-wp-trac-42670` is active, the "settings" links for the other plugins are missing.
@@ -68,17 +68,18 @@ npx wp-env run cli sudo apk add patch
 npx wp-env run tests-cli sudo apk add patch
 
 # Apply the patch
-npx wp-env run tests-cli patch -i 3412.patch -p 2 -s -N -f --no-backup-if-mismatch --reject-file=
-npx wp-env run cli patch -i 3412.patch -p 2 -s -N -f --no-backup-if-mismatch --reject-file=
+npx wp-env run cli patch -i 5336.patch -p 2 -s -N -f --no-backup-if-mismatch --reject-file=
+npx wp-env run tests-cli patch -i 5336.patch -p 2 -s -N -f --no-backup-if-mismatch --reject-file=
+
+# It will "fail" but that is the `/tests/phpunit/tests/...` part not applying.
 ```
 
 Observe: the "settings" links for the other plugins are visible regardless of the status of `a-wp-trac-42670`.
 
-This patch only works for the double-symlink scenario, i.e. on http://localhost:8889, not http://localhost:8888.
-
 ![42670-problem-fixed.png](42670-problem-fixed.png)
 
 ```bash
+# Delete the Docker containers used:
 npx wp-env destroy
 
 # Delete this test project!
