@@ -27,30 +27,6 @@ npx wp-env start
 
 It completes with `Command failed` but everything seems to be in order.
 
-```bash
-# This section can be skipped. It runs `ls` to verify the symlinks.
-
-npx wp-env run cli ls -l /var/www/
-# Note the mapped plugin file in the parent directory of the WordPress install:
-# a-wp-trac-42670.php
-# html
-
-npx wp-env run cli ls -l /var/www/html/wp-content/plugins 
-# Note the symlink `a-wp-trac-42670 -> /var/www/`
-
-npx wp-env run tests-cli ls -l /var/www/
-# Note the mapped file and directory in the parent directory of the WordPress install:
-# a-wp-trac-42670.php
-# html
-# wp-content
-
-npx wp-env run tests-cli ls -l /var/www/wp-content/plugins 
-# Note the symlink `a-wp-trac-42670 -> /var/www/` 
-
-npx wp-env run tests-cli ls -l /var/www/html/wp-content/
-# Note the symlink `plugins -> /var/www/wp-content/plugins/`
-```
-
 Observe: when plugin `a-wp-trac-42670` is active, the "settings" links for the other plugins are missing.
 
 ```bash
@@ -84,4 +60,32 @@ npx wp-env destroy
 
 # Delete this test project!
 $ cd ..; rm -rf a-wp-trac-42670;
+```
+
+---
+
+## Troubleshooting / Confirm dev environment symlink configuration:
+
+```bash
+# Run `ls` to verify the symlinks.
+
+npx wp-env run cli ls -l /var/www/
+# Note the mapped plugin file in the parent directory of the WordPress install:
+# a-wp-trac-42670.php
+# html
+
+npx wp-env run cli ls -l /var/www/html/wp-content/plugins 
+# Note the symlink `a-wp-trac-42670 -> /var/www/`
+
+npx wp-env run tests-cli ls -l /var/www/
+# Note the mapped file and directory in the parent directory of the WordPress install:
+# a-wp-trac-42670.php
+# html
+# wp-content
+
+npx wp-env run tests-cli ls -l /var/www/wp-content/plugins 
+# Note the symlink `a-wp-trac-42670 -> /var/www/` 
+
+npx wp-env run tests-cli ls -l /var/www/html/wp-content/
+# Note the symlink `plugins -> /var/www/wp-content/plugins/`
 ```
