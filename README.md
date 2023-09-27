@@ -12,7 +12,7 @@ These test steps require Composer, NPM and Docker.
 git clone https://github.com/BrianHenryIE/a-wp-trac-42670.git;
 cd a-wp-trac-42670;
 
-wget https://github.com/WordPress/wordpress-develop/pull/3412.patch
+wget https://github.com/WordPress/wordpress-develop/pull/5336.patch
 
 chmod +x ./afterStart.sh
 chmod +x ./single-symlink.sh
